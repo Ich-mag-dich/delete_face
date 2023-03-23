@@ -1,5 +1,9 @@
 # delete_face
 
+![INPUT](example/input/scientist/scientists.jpg)
+
+![OUTPUT](example/output/scientist/DF_scientists.jpg)
+
 > Delete face from entered image
 
 - **[SEETAFACE C++](https://github.com/seetaface/SeetaFaceEngine/tree/master/FaceDetection)**

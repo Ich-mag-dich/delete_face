@@ -83,3 +83,5 @@ rust-project.json
 input/
 output/
 *.png
+!example/input/
+!example/output/
