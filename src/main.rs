@@ -6,6 +6,7 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
+
 fn main() {
     let line = "------------------------------------------";
     print!("Input image path: ");
