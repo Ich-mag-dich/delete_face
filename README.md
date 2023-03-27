@@ -13,17 +13,17 @@
 
 Make 'input' directory and put the picture you want in the 'input' folder.
 
-input the "test2" folder, set the path to "input/test2/" and create the "output/test2/" folder to save your edited photos.
+if you enter the "test2", set the image path to "input/test2/" and create the "output/test2/" folder to save edited photos.
 
 ```bash
 $ cargo build --release && ./target/release/delete_face
 
 
 
-Input image path: test2/
+Input image path: test2
 
 ------------------------------------------
-image path is: input/test2/
+image path is: input/test2
 ------------------------------------------
 image count: 12
 
