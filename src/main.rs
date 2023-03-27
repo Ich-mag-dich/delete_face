@@ -120,8 +120,8 @@ fn print_process(
     mut stdout: &io::Stdout,
     before_file_name: &String,
 ) {
-    let bar = "█".repeat((processing * 20.0).ceil() as usize);
-    let bar2 = " ".repeat(20 - ((processing * 20.0).ceil() as usize));
+    let bar = "█".repeat((processing * 50.0).ceil() as usize);
+    let bar2 = " ".repeat(50 - ((processing * 50.0).ceil() as usize));
     let string_len = before_file_name.len() + bar.len() + bar2.len();
     if string_len > 1 {
         print!("\r");
@@ -130,15 +130,27 @@ fn print_process(
         }
         stdout.flush().unwrap();
     }
-    print!(
-        "\r [{}{}] | {}/{} | {:.2}% | {} ",
-        bar,
-        bar2,
-        count + 1,
-        file_count,
-        processing * 100.0,
-        file_path
-    );
+    if processing * 100.0 == 100.00 {
+        print!(
+            "\r \x1b[32m[{}{}] | {}/{} | {:.2}% | {} \x1b[0m",
+            bar,
+            bar2,
+            count + 1,
+            file_count,
+            processing * 100.0,
+            file_path
+        );
+    } else {
+        print!(
+            "\r\x1b[93m [{}{}] | {}/{} | {:.2}% | {} \x1b[0m",
+            bar,
+            bar2,
+            count + 1,
+            file_count,
+            processing * 100.0,
+            file_path
+        );
+    }
     stdout.flush().unwrap();
 }
 fn detect_faces(detector: &mut dyn Detector, gray: &GrayImage) -> Vec<FaceInfo> {
