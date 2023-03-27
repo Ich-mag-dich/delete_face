@@ -130,7 +130,7 @@ fn print_process(
         }
         stdout.flush().unwrap();
     }
-    if processing * 100.0 == 100.00 {
+    if processing * 100.0 == 100.0 {
         print!(
             "\r \x1b[32m[{}{}] | {}/{} | {:.2}% | {} \x1b[0m",
             bar,
