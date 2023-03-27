@@ -1,19 +1,19 @@
-use image::{ DynamicImage, GrayImage, Rgb };
+use image::{DynamicImage, GrayImage, Rgb};
 use imageproc::drawing::draw_filled_rect_mut;
 use imageproc::rect::Rect;
-use rustface::{ Detector, FaceInfo, ImageData, Rectangle };
+use rustface::{Detector, FaceInfo, ImageData, Rectangle};
 use std::fs;
-use std::io::{ self, Write };
-use std::path::{ Path, PathBuf };
+use std::io::{self, Write};
+use std::path::{Path, PathBuf};
 
 fn main() {
     let line = "------------------------------------------";
-    print!("Input image path: ");
+    print!("\nInput image path: ");
     io::stdout().flush().unwrap();
     let mut input_path = String::new();
     io::stdin().read_line(&mut input_path).expect("input error");
     let input_path = format!("input/{}", input_path.trim());
-    println!("\n\n{}\nimage path is: {}", line, input_path);
+    println!("\n{}\n\nimage path is: {}", line, input_path);
     let files: Vec<String> = Path::new(&input_path)
         .read_dir()
         .expect("Failed to read directory")
@@ -27,16 +27,15 @@ fn main() {
         })
         .collect::<Vec<String>>();
     let file_count = files.len();
-    println!("{}\nimage count: {}", line, file_count);
-    let mut detector: Box<dyn Detector> = match
-        rustface::create_detector("./model/seeta_fd_frontal_v1.0.bin")
-    {
-        Ok(detector) => detector,
-        Err(error) => {
-            println!("Failed to create detector: {}", error.to_string());
-            std::process::exit(1)
-        }
-    };
+    println!("\n{}\nimage count: {}\n", line, file_count);
+    let mut detector: Box<dyn Detector> =
+        match rustface::create_detector("./model/seeta_fd_frontal_v1.0.bin") {
+            Ok(detector) => detector,
+            Err(error) => {
+                println!("Failed to create detector: {}", error.to_string());
+                std::process::exit(1)
+            }
+        };
     let stdout = io::stdout();
     detector.set_min_face_size(20);
     detector.set_max_face_size(500);
@@ -54,10 +53,9 @@ fn main() {
             &file_path.as_str(),
             &processing,
             &stdout,
-            &before_file_name
+            &before_file_name,
         );
-        let image: DynamicImage = image
-            ::open(&file_path)
+        let image: DynamicImage = image::open(&file_path)
             .expect(format!("Failed to read image: {}", &file_path).as_str());
 
         let mut rgb = image.to_rgb8();
@@ -70,9 +68,8 @@ fn main() {
             draw_filled_rect_mut(&mut rgb, rect, Rgb([255, 255, 255]));
         }
 
-        let output_file: PathBuf = PathBuf::from(
-            format!("{}", file.as_str().replace("input", "output"))
-        );
+        let output_file: PathBuf =
+            PathBuf::from(format!("{}", file.as_str().replace("input", "output")));
 
         match rgb.save(&output_file) {
             Ok(_) => {
@@ -82,13 +79,12 @@ fn main() {
                     &output_file.display().to_string(),
                     &processing,
                     &stdout,
-                    &before_file_name
+                    &before_file_name,
                 );
             }
             Err(message) => {
-                let create_dir_name: PathBuf = PathBuf::from(
-                    format!("./output/{}", input_path.replace("input/", ""))
-                );
+                let create_dir_name: PathBuf =
+                    PathBuf::from(format!("./output/{}", input_path.replace("input/", "")));
                 fs::create_dir_all(&create_dir_name).expect("Failed to create directory");
                 match rgb.save(&output_file) {
                     Ok(_) => {
@@ -98,7 +94,7 @@ fn main() {
                             &output_file.display().to_string(),
                             &processing,
                             &stdout,
-                            &before_file_name
+                            &before_file_name,
                         );
                     }
                     Err(message2) => println!("Can't save file, {}, {}", message, message2),
@@ -122,7 +118,7 @@ fn print_process(
     file_path: &str,
     processing: &f64,
     mut stdout: &io::Stdout,
-    before_file_name: &String
+    before_file_name: &String,
 ) {
     let bar = "█".repeat((processing * 20.0).ceil() as usize);
     let bar2 = " ".repeat(20 - ((processing * 20.0).ceil() as usize));
@@ -135,7 +131,7 @@ fn print_process(
         stdout.flush().unwrap();
     }
     print!(
-        "\r [{}{}] {}/{} {:.2}% {} ",
+        "\r [{}{}] | {}/{} | {:.2}% | {} ",
         bar,
         bar2,
         count + 1,
