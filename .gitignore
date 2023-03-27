@@ -85,3 +85,6 @@ output/
 *.png
 !example/input/
 !example/output/
+
+vgg_face_caffe/
+moodel/
